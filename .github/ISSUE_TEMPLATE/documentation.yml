@@ -1,0 +1,25 @@
+name: Documentation
+description: Report a typo, missing info, or suggest docs improvements
+labels: [documentation]
+body:
+  - type: textarea
+    id: location
+    attributes:
+      label: Where is the issue?
+      description: Link or path to the file / section that needs attention.
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What's wrong or missing?
+      description: Clear description of the problem — typo, unclear section, missing instructions, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix (optional)
+      description: Proposed wording, new section text, or corrections.

@@ -1,0 +1,72 @@
+name: Bug Report
+description: Report a problem with Smooth Scroll For Everyone
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll over '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: media
+    attributes:
+      label: Screenshots / recordings
+      description: If applicable, add media to help explain the problem.
+
+  - type: input
+    id: winver
+    attributes:
+      label: Windows version
+      description: e.g. Windows 11 23H2
+    validations:
+      required: true
+
+  - type: input
+    id: appver
+    attributes:
+      label: App version
+      description: e.g. v0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: target
+    attributes:
+      label: Target application
+      description: The app where the issue occurs (e.g. Adobe Premiere Pro, Chrome)
+
+  - type: textarea
+    id: settings
+    attributes:
+      label: Current settings
+      description: Scroll Multiplier, Send Interval, Pulse, toggles, exclusions, etc.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anti-cheat software running, GPU driver version, or anything else relevant.

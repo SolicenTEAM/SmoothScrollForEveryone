@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions
+    url: https://github.com/SolicenTEAM/Smooth-Scroll-For-Everyone/discussions
+    about: Ask questions, share configurations, or discuss ideas.
+  - name: Author
+    url: https://github.com/SolicenTEAM
+    about: Reach out to the maintainer.

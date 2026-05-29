@@ -1,0 +1,58 @@
+{
+  "app": {
+    "title": "Smooth Scroll For Everyone"
+  },
+  "settings": {
+    "title": "Settings",
+    "about": "About",
+    "about_desc": "App info, links, and version.",
+    "support_me": "Support Me",
+    "version": "Version",
+    "author": "Author",
+    "startup": "Startup",
+    "startup_desc": "Controls what happens when Windows starts or the window closes.",
+    "minimize_tray": "Minimize to Tray",
+    "minimize_tray_desc": "Minimize the app to the system tray instead of closing.",
+    "appearance": "Appearance",
+    "appearance_desc": "Customize the look and feel of the app.",
+    "language_desc": "Choose the app display language.",
+    "reset": "Reset",
+    "reset_desc": "Restore all settings to their default values.",
+    "reset_all": "Reset All Settings",
+    "reset_all_desc": "Will reset all input fields and settings to the defaults.",
+    "reset_button": "Reset"
+  },
+  "sections": {
+    "params": "Parameters",
+    "controls": "Controls"
+  },
+  "toggles": {
+    "enable": "Smooth Scroll",
+    "enable_desc": "Globally enable or disable smooth scrolling",
+    "enable_warning": "Smooth scrolling simulates mouse input via WinAPI. It shouldn't affect games, but some anti-cheat systems may flag it. No issues reported so far.",
+    "auto_start": "Launch at startup",
+    "auto_start_desc": "Automatically start the application when you log in",
+    "off": "OFF",
+    "on": "ON"
+  },
+  "params": {
+    "scroll_multiplier": "Multiplier",
+    "scroll_multiplier_desc": "Base multiplier that increases the distance of each scroll tick.",
+    "send_interval_ms": "Send Interval",
+    "send_interval_desc": "Interval between synthetic scroll events. Higher values produce smoother motion but add more input lag.",
+    "step_size": "Step Size",
+    "step_size_desc": "Minimum scroll step per event. Controls how gradual the motion feels at low speeds.",
+    "max_send_step": "Max Step",
+    "max_send_step_desc": "Maximum scroll step per event. Caps the highest speed achievable.",
+    "step_gain": "Step Gain",
+    "step_gain_desc": "How quickly the step size grows as scroll input accumulates. Lower values feel more gradual.",
+    "max_accel": "Max Accel",
+    "max_accel_desc": "Peak acceleration multiplier based on how long the wheel scrolls continuously.",
+    "accel_decay_time": "Decay Time",
+    "accel_decay_time_desc": "How quickly acceleration fades after scrolling stops, in milliseconds."
+  },
+  "units": {
+    "ms": "ms",
+    "px": "px"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "app": {
+    "title": "Smooth Scroll For Everyone"
+  },
+  "settings": {
+    "title": "Settings",
+    "about": "About",
+    "about_desc": "App info, links, and version.",
+    "support_me": "Support Me",
+    "version": "Version",
+    "author": "Author",
+    "startup": "Startup",
+    "startup_desc": "Controls what happens when Windows starts or the window closes.",
+    "minimize_tray": "Minimize to Tray",
+    "minimize_tray_desc": "Minimize the app to the system tray instead of closing.",
+    "engine": "Engine",
+    "engine_desc": "Configure the smooth scroll algorithm behavior.",
+    "pulse": "Pulse Smoothing",
+    "pulse_desc": "Apply easing to scroll motion for a smoother, more natural feel. When disabled, the linear algorithm is used instead.",
+    "horizontal_scroll": "Horizontal Scroll",
+    "horizontal_scroll_desc": "Hold a key while scrolling vertically to produce horizontal scroll events.",
+    "horizontal_scroll_key": "Activation key",
+    "excluded_apps": "App Exclusions",
+    "excluded_apps_desc": "Disable smooth scrolling for specific apps by their EXE name. Separate multiple entries with commas.",
+    "excluded_apps_placeholder": "e.g. Adobe Premiere Pro",
+    "toggle_key": "Toggle Key",
+    "toggle_key_desc": "Hold to temporarily disable smooth scrolling. Useful for precise scrolling in certain apps.",
+    "appearance": "Appearance",
+    "appearance_desc": "Customize the look and feel of the app.",
+    "language": "App language",
+    "lang_en": "English",
+    "lang_ru": "Русский",
+    "reset": "Reset",
+    "reset_desc": "Restore all settings to their default values.",
+    "reset_all": "Reset All Settings",
+    "reset_all_desc": "Will reset all input fields and settings to the defaults.",
+    "reset_button": "Reset",
+    "security": "Security",
+    "security_desc": "Detect game windows that register for RawInput and skip smooth scrolling for them. Uses GetRegisteredRawInputDevices - a harmless read-only WinAPI call.",
+    "ignore_raw_input": "Ignore RawInput Windows",
+    "ignore_raw_input_desc": "When enabled, smooth scrolling automatically pauses for windows whose process registered for RawInput mouse input (typical for games).",
+    "ignore_anticheat": "Ignore Anti-Cheat",
+    "ignore_anticheat_desc": "Detects known anti-cheat modules in the foreground process and pauses smooth scrolling. Matches 20+ anti-cheat DLLs from common protection systems."
+  },
+  "sections": {
+    "params": "Parameters",
+    "controls": "Controls"
+  },
+  "toggles": {
+    "enable": "Smooth Scroll",
+    "enable_desc": "Globally enable or disable smooth scrolling",
+    "enable_warning": "Smooth scrolling uses PostMessage - safe for all games and apps.",
+    "auto_start": "Launch at startup",
+    "auto_start_desc": "Automatically start the application when you log in",
+    "off": "OFF",
+    "on": "ON"
+  },
+  "params": {
+    "scroll_multiplier": "Multiplier",
+    "scroll_multiplier_desc": "Base multiplier that increases the distance of each scroll tick.",
+    "send_interval_ms": "Send Interval",
+    "send_interval_desc": "Interval between synthetic scroll events. Higher values produce smoother motion but add more input lag.",
+    "step_size": "Step Size",
+    "step_size_desc": "Minimum scroll step per event. Controls how gradual the motion feels at low speeds.",
+    "max_send_step": "Max Step",
+    "max_send_step_desc": "Maximum scroll step per event. Caps the highest speed achievable.",
+    "step_gain": "Step Gain",
+    "step_gain_desc": "How quickly the step size grows as scroll input accumulates. Lower values feel more gradual.",
+    "max_accel": "Max Accel",
+    "max_accel_desc": "Peak acceleration multiplier based on how long the wheel scrolls continuously.",
+    "accel_decay_time": "Decay Time",
+    "accel_decay_time_desc": "How quickly acceleration fades after scrolling stops, in milliseconds."
+  },
+  "units": {
+    "ms": "ms",
+    "px": "px"
+  },
+  "keys": {
+    "disabled": "Disabled",
+    "shift": "Shift",
+    "ctrl": "Ctrl",
+    "alt": "Alt",
+    "tab": "Tab",
+    "capslock": "Capslock",
+    "home": "Home"
+  }
+}

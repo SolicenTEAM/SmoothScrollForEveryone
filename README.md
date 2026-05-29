@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="">
-    <img width="120" src=".\src-tauri\icons\android\mipmap-xxxhdpi\ic_launcher_round.png" alt="Smooth Scroll For Everyone">
+    <img width="120" src=".\public\icon_round.png" alt="Smooth Scroll For Everyone">
   </picture>
 </p>
 

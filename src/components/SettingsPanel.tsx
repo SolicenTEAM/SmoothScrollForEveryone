@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 
 interface SettingsPanelProps {
   visible: boolean
+  version: string
   minimizeToTray: boolean
   pulseEnabled: boolean
   horizontalScrollKey: number
@@ -68,6 +69,7 @@ function SettingRow({
 
 export function SettingsPanel({
   visible,
+  version,
   minimizeToTray,
   pulseEnabled,
   horizontalScrollKey,
@@ -174,7 +176,7 @@ export function SettingsPanel({
                     {t('settings.version')}
                   </span>
                   <span className="text-sm font-mono text-muted-foreground tabular-nums">
-                    v1.0.0
+                    {version ? `v${version}` : ''}
                   </span>
                 </div>
               </div>

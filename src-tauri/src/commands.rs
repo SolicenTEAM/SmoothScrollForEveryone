@@ -119,6 +119,11 @@ pub fn set_minimize_to_tray(_enabled: bool) -> Result<(), String> {
     Ok(())
 }
 
+#[tauri::command]
+pub fn get_version() -> String {
+    env!("CARGO_PKG_VERSION").to_string()
+}
+
 pub fn init_settings() -> SettingsState {
     let settings = load_from_disk();
     SmoothScrollEngine::init(settings.clone());

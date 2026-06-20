@@ -55,6 +55,7 @@ function App() {
   const { t } = useTranslation()
   const [view, setView] = useState<'main' | 'settings'>('main')
   const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS)
+  const [version, setVersion] = useState('')
   const initialLoadDone = useRef(false)
   const transitioning = useRef(false)
   const wasEngineRunning = useRef(false)
@@ -62,6 +63,7 @@ function App() {
   const paramsScrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    invoke<string>('get_version').then(setVersion).catch(() => {})
     invoke<AppSettings>('get_settings')
       .then((s) => {
         setSettings(s)
@@ -294,6 +296,7 @@ function App() {
           <div key="settings" className="animate-fadeIn h-full flex flex-col">
             <SettingsPanel
               visible={true}
+              version={version}
               minimizeToTray={settings.minimize_to_tray}
               pulseEnabled={settings.pulse_enabled}
               horizontalScrollKey={settings.horizontal_scroll_key}

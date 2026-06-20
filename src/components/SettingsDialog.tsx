@@ -123,7 +123,7 @@ export function SettingsDialog({
                       {t('settings.version')}
                     </span>
                     <span className="text-sm font-mono text-muted-foreground tabular-nums">
-                      v1.0.0
+                      v1.0.1
                     </span>
                   </div>
                 </div>

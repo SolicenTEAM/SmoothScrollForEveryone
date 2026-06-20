@@ -106,6 +106,7 @@ pub fn run() {
             commands::engine_status,
             commands::reset_settings,
             commands::set_minimize_to_tray,
+            commands::get_version,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

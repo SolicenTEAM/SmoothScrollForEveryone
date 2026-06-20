@@ -17,6 +17,7 @@ use crate::models::AppSettings;
 
 const PULSE_NORMALIZE: f64 = 0.4878;
 const PROCESS_QUERY_LIMITED_INFORMATION: u32 = 0x1000;
+const LLMHF_INJECTED: u32 = 0x01;
 
 #[link(name = "kernel32")]
 extern "system" {
@@ -169,6 +170,48 @@ fn process_has_anticheat(pid: u32) -> bool {
     }
 }
 
+static G_MODERN_UI_PID: OnceLock<Mutex<u32>> = OnceLock::new();
+static G_MODERN_UI_RESULT: OnceLock<Mutex<bool>> = OnceLock::new();
+
+fn target_uses_modern_input(pid: u32) -> bool {
+    let cache_pid = G_MODERN_UI_PID.get_or_init(|| Mutex::new(u32::MAX));
+    let cache_result = G_MODERN_UI_RESULT.get_or_init(|| Mutex::new(false));
+
+    let mut p = cache_pid.lock().unwrap();
+    if *p == pid {
+        return *cache_result.lock().unwrap();
+    }
+
+    let result = unsafe {
+        let snapshot = match CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid) {
+            Ok(h) => h,
+            Err(_) => return false,
+        };
+        let mut found = false;
+        let mut me = MODULEENTRY32W::default();
+        me.dwSize = std::mem::size_of::<MODULEENTRY32W>() as u32;
+        if Module32FirstW(snapshot, &mut me).is_ok() {
+            loop {
+                let name = String::from_utf16_lossy(&me.szModule).to_lowercase();
+                let name = name.trim_end_matches('\0');
+                if name == "twinapi.appcore.dll" || name == "windows.ui.xaml.dll" {
+                    found = true;
+                    break;
+                }
+                if Module32NextW(snapshot, &mut me).is_err() {
+                    break;
+                }
+            }
+        }
+        let _ = CloseHandle(snapshot);
+        found
+    };
+
+    *p = pid;
+    *cache_result.lock().unwrap() = result;
+    result
+}
+
 fn pulse(x: f64) -> f64 {
     let x = x * 3.0;
     if x < 1.0 {
@@ -217,8 +260,12 @@ unsafe extern "system" fn low_level_mouse_proc(
     }
 
     if w_param.0 == WM_MOUSEWHEEL as usize {
-        let (_flags, delta) = read_mouse_flags_and_data(l_param);
+        let (flags, delta) = read_mouse_flags_and_data(l_param);
         if delta.abs() < WHEEL_DELTA as i32 {
+            return CallNextHookEx(Some(hook), n_code, w_param, l_param);
+        }
+
+        if (flags & LLMHF_INJECTED) != 0 {
             return CallNextHookEx(Some(hook), n_code, w_param, l_param);
         }
 
@@ -433,10 +480,24 @@ fn send_scroll(delta: i32, is_horizontal: bool) {
         if hwnd.is_invalid() {
             return;
         }
-        let msg = if is_horizontal { WM_MOUSEHWHEEL } else { WM_MOUSEWHEEL };
-        let w_param = WPARAM(((delta as i16 as u16 as usize) << 16) | 0);
-        let l_param = LPARAM(((pos.y as i16 as u16 as isize) << 16) | (pos.x as i16 as u16 as isize));
-        let _ = PostMessageW(Some(hwnd), msg, w_param, l_param);
+
+        let mut pid: u32 = 0;
+        GetWindowThreadProcessId(hwnd, Some(&mut pid));
+        let use_sendinput = pid != 0 && target_uses_modern_input(pid);
+
+        if use_sendinput {
+            let mut input = INPUT::default();
+            input.r#type = INPUT_MOUSE;
+            input.Anonymous.mi.dwFlags = if is_horizontal { MOUSEEVENTF_HWHEEL } else { MOUSEEVENTF_WHEEL };
+            input.Anonymous.mi.mouseData = delta as u32;
+            input.Anonymous.mi.time = 0;
+            let _ = SendInput(&[input], std::mem::size_of::<INPUT>() as i32);
+        } else {
+            let msg = if is_horizontal { WM_MOUSEHWHEEL } else { WM_MOUSEWHEEL };
+            let w_param = WPARAM(((delta as i16 as u16 as usize) << 16) | 0);
+            let l_param = LPARAM(((pos.y as i16 as u16 as isize) << 16) | (pos.x as i16 as u16 as isize));
+            let _ = PostMessageW(Some(hwnd), msg, w_param, l_param);
+        }
     }
 }
 

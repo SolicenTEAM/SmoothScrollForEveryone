@@ -127,7 +127,8 @@ fn foreground_uses_raw_input() -> bool {
     false
 }
 
-const ANTICHEAT_DLLS: [&str; 20] = [
+const GAME_DLLS: [&str; 23] = [
+    // Anti-cheat engines
     "easyanticheat_x64.dll", "easyanticheat_x86.dll",
     "beclient_x64.dll", "beclient.dll", "beclient_x86.dll",
     "ace-base64.dll", "ace-gdp.dll", "ace-service.dll",
@@ -139,9 +140,13 @@ const ANTICHEAT_DLLS: [&str; 20] = [
     "faceitclient.dll",
     "esea.dll",
     "blackcipher.dll",
+    // Game engine & store DLLs — games rarely need smooth scrolling
+    "unityplayer.dll",
+    "gameassembly.dll",
+    "steam_api64.dll",
 ];
 
-fn process_has_anticheat(pid: u32) -> bool {
+fn foreground_has_game_modules(pid: u32) -> bool {
     unsafe {
         let snapshot = match CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid) {
             Ok(h) => h,
@@ -155,7 +160,7 @@ fn process_has_anticheat(pid: u32) -> bool {
             loop {
                 let name = String::from_utf16_lossy(&me.szModule).to_lowercase();
                 let name = name.trim_end_matches('\0');
-                if ANTICHEAT_DLLS.contains(&name) {
+                if GAME_DLLS.contains(&name) {
                     let _ = CloseHandle(snapshot);
                     return true;
                 }
@@ -314,7 +319,7 @@ unsafe extern "system" fn low_level_mouse_proc(
                     pid_ac
                 }
             };
-            if ac_pid != 0 && process_has_anticheat(ac_pid) {
+            if ac_pid != 0 && foreground_has_game_modules(ac_pid) {
                 return CallNextHookEx(Some(hook), n_code, w_param, l_param);
             }
         }
